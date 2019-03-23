@@ -1,7 +1,9 @@
+#!/bin/bash
 gateways=$(kubectl -n istio-system get po|grep ingressgateway|awk '{print $1}'|awk -F- '{print $4}')
 declare -A file_old_stats=()
 for gateway in $gateways; do
-  file_old_stats[$gateway]="0"
+  local file_path=${gateway}-503.log
+  file_old_stats[$gateway]="`stat ${file_path}|grep Size`"
 done
 
 function whether_changed(){
@@ -15,7 +17,7 @@ function whether_changed(){
     else
         file_old_stats[$gateway]=${file_new_stat}
         echo "### ${file_path}  changed: ${file_old_stats[$gateway]}  ###"
-        echo "cn-north-3 503 error"|mail -s "cn north3 503 error-$gateway"  19092057@qq.com < $file_path
+        echo "cn-north-3 503 error"|mail -s "cn north3 503 error-$gateway"  19092057@qq.com 93676341@qq.com 249333569@qq.com 290642443@qq.com  < $file_path
     fi
 }
 

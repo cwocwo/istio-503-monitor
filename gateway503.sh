@@ -1,3 +1,4 @@
+#!/bin/bash
 gateways=$(kubectl -n istio-system get po|grep ingressgateway|awk '{print $1}')
 for gateway in $gateways;
 do
